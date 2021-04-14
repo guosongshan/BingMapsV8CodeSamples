@@ -22,7 +22,31 @@
 
         //Add the pushpin to the map
         map.entities.push(pin);
+         Microsoft.Maps.Events.addHandler(map, 'click', function (e) { handleArgs('mapClick', e); });
     }
+        
+         function handleArgs(id, e) {
+            if (id=='mapClick') {
+            console.log(map)
+            console.log(e)
+            var log = e.location.longitude;
+            var lat = e.location.latitude;
+            console.log("经度："+log+" || 纬度："+lat)
+            map.setView({
+                center: new Microsoft.Maps.Location(lat, log),
+                zoom: map.getZoom()
+            });
+            map.entities.clear();
+            pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(lat, log), map);
+            //map.entities.push(pushpin);
+           
+            layer.add(pushpin);
+            map.layers.insert(layer);
+
+        }
+        
+    }
+
     </script>
     <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?callback=GetMap&key=[YOUR_BING_MAPS_KEY]' async defer></script>
 </head>
